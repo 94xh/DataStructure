@@ -3,6 +3,58 @@ package com.data.structure.linkedList;
 public class SinglyLinkedList {
     private Node head = null;
 
+    //带结点的链表翻转
+    public static Node inverseLinkList_head(Node p) {
+        //　Head　为新建的一个头结点
+        Node Head = new Node(9999, null);
+        // p　为原来整个链表的头结点,现在Head指向　整个链表
+        Head.next = p;
+        /*
+        带头结点的链表翻转等价于
+        从第二个元素开始重新头插法建立链表
+        */
+        Node Cur = p.next;
+        p.next = null;
+        Node next = null;
+
+        while (Cur != null) {
+            next = Cur.next;
+            Cur.next = Head.next;
+            Head.next = Cur;
+            System.out.println("first " + Head.data);
+
+            Cur = next;
+        }
+
+        //　返回左半部分的中点之前的那个节点
+        //　从此处开始同步像两边比较
+        return Head;
+
+    }
+
+    public static Node createNode(int value) {
+        return new Node(value, null);
+    }
+
+    public static void main(String[] args) {
+        Node node1 = new Node(1, null);
+        Node node2 = new Node(2, null);
+        Node node3 = new Node(3, null);
+        Node node4 = new Node(4, null);
+        Node node5 = new Node(5, null);
+
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+
+        SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
+        singlyLinkedList.head = node1;
+        singlyLinkedList.printAll();
+        singlyLinkedList.head = inverseLinkList_head(singlyLinkedList.head);
+        singlyLinkedList.printAll();
+    }
+
     public Node findByValue(int value) {
         Node p = head;
         while (p != null && p.data != value) {
@@ -199,36 +251,6 @@ public class SinglyLinkedList {
         }
     }
 
-
-    //带结点的链表翻转
-    public static Node inverseLinkList_head(Node p) {
-        //　Head　为新建的一个头结点
-        Node Head = new Node(9999, null);
-        // p　为原来整个链表的头结点,现在Head指向　整个链表
-        Head.next = p;
-        /*
-        带头结点的链表翻转等价于
-        从第二个元素开始重新头插法建立链表
-        */
-        Node Cur = p.next;
-        p.next = null;
-        Node next = null;
-
-        while (Cur != null) {
-            next = Cur.next;
-            Cur.next = Head.next;
-            Head.next = Cur;
-            System.out.println("first " + Head.data);
-
-            Cur = next;
-        }
-
-        //　返回左半部分的中点之前的那个节点
-        //　从此处开始同步像两边比较
-        return Head;
-
-    }
-
     //无头结点的链表翻转
     public Node inverseLinkList(Node p) {
         Node pre = null;
@@ -245,10 +267,6 @@ public class SinglyLinkedList {
         return r;
     }
 
-    public static Node createNode(int value) {
-        return new Node(value, null);
-    }
-
     public static class Node {
         private int data;
         private Node next;
@@ -261,24 +279,5 @@ public class SinglyLinkedList {
         public int getdata() {
             return data;
         }
-    }
-
-    public static void main(String[] args) {
-        Node node1 = new Node(1, null);
-        Node node2 = new Node(2, null);
-        Node node3 = new Node(3, null);
-        Node node4 = new Node(4, null);
-        Node node5 = new Node(5, null);
-
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
-
-        SinglyLinkedList singlyLinkedList = new SinglyLinkedList();
-        singlyLinkedList.head = node1;
-        singlyLinkedList.printAll();
-        singlyLinkedList.head = inverseLinkList_head(singlyLinkedList.head);
-        singlyLinkedList.printAll();
     }
 }

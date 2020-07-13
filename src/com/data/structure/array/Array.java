@@ -19,6 +19,18 @@ public class Array {
         this.count = 0;
     }
 
+    public static void main(String[] args) {
+        Array array = new Array(5);
+        array.printAll();
+        array.insert(0, 3);
+        array.insert(0, 4);
+        array.insert(1, 5);
+        array.insert(3, 9);
+        array.insert(3, 10);
+        //array.insert(3, 11);
+        array.printAll();
+    }
+
     //根据索引，找到数据中的元素并返回
     public int find(int index) {
         if (index < 0 || index >= count) return -1;
@@ -56,18 +68,6 @@ public class Array {
         for (int i = 0; i < count; i++) {
             System.out.println(data[i]);
         }
-    }
-
-    public static void main(String[] args) {
-        Array array = new Array(5);
-        array.printAll();
-        array.insert(0, 3);
-        array.insert(0, 4);
-        array.insert(1, 5);
-        array.insert(3, 9);
-        array.insert(3, 10);
-        //array.insert(3, 11);
-        array.printAll();
     }
 
 

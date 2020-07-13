@@ -18,12 +18,27 @@ public class GenericArray<T> {
         this(10);
     }
 
+    public static void main(String[] args) {
+        GenericArray<Integer> genericArray = new GenericArray(2);
+        genericArray.add(0, 1);
+        genericArray.add(1, 2);
+        genericArray.add(2, 3);
+        genericArray.add(3, 4);
+        genericArray.add(4, 5);
+        System.out.println(genericArray.toString());
+        genericArray.remove(3);
+        System.out.println(genericArray.toString());
+    }
+
     // 获取数组容量
     public int getCapacity() {
         return data.length;
     }
 
-    public T getFirst(){return data[0];}
+    public T getFirst() {
+        return data[0];
+    }
+
     // 获取当前元素个数
     public int count() {
         return size;
@@ -58,7 +73,7 @@ public class GenericArray<T> {
 
     // 获取对应元素的下标, 未找到，返回 -1
     public int find(T e) {
-        for ( int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             if (data[i].equals(e)) {
                 return i;
             }
@@ -66,13 +81,12 @@ public class GenericArray<T> {
         return -1;
     }
 
-
     // 在 index 位置，插入元素e, 时间复杂度 O(m+n)
     public void add(int index, T e) {
         checkIndex(index);
         // 如果当前元素个数等于数组容量，则将数组扩容为原来的2倍
         if (size == data.length) {
-            resize(data.length + (data.length>>1));
+            resize(data.length + (data.length >> 1));
         }
 
         for (int i = size - 1; i >= index; i--) {
@@ -100,7 +114,7 @@ public class GenericArray<T> {
         for (int i = index + 1; i < size; i++) {
             data[i - 1] = data[i];
         }
-        size --;
+        size--;
         data[size] = null;
 
         // 缩容
@@ -161,20 +175,8 @@ public class GenericArray<T> {
     }
 
     private void checkIndexForRemove(int index) {
-        if(index < 0 || index >= size) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("remove failed! Require index >=0 and index < size.");
         }
-    }
-
-    public static void main(String[] args) {
-        GenericArray<Integer> genericArray = new GenericArray(2);
-        genericArray.add(0, 1);
-        genericArray.add(1, 2);
-        genericArray.add(2, 3);
-        genericArray.add(3, 4);
-        genericArray.add(4, 5);
-        System.out.println(genericArray.toString());
-        genericArray.remove(3);
-        System.out.println(genericArray.toString());
     }
 }

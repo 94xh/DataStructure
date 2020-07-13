@@ -1,12 +1,11 @@
 package com.data.structure.linkedList;
 
-import java.time.temporal.Temporal;
 import java.util.Scanner;
 
 /**
  * 基于单链表LRU算法（java）
  *
- * @author hoda
+ * @author xiaohao
  * @create 2018-12-17
  */
 public class LRUBaseLinkedList<T> {
@@ -43,16 +42,25 @@ public class LRUBaseLinkedList<T> {
         this.length = 0;
     }
 
+    public static void main(String[] args) {
+        LRUBaseLinkedList list = new LRUBaseLinkedList();
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            list.add(sc.nextInt());
+            list.printAll();
+        }
+    }
+
     public void add(T data) {
         SNode preNode = findPreNode(data);
-        if (preNode != null){
+        if (preNode != null) {
             deleteElemOptim(preNode);
-            intsertElemAtBegin(data);
-        }else{
-            if (length >= this.capacity){
+            insertelematbegin(data);
+        } else {
+            if (length >= this.capacity) {
                 deleteElemAtEnd();
             }
-            intsertElemAtBegin(data);
+            insertelematbegin(data);
         }
     }
 
@@ -73,9 +81,9 @@ public class LRUBaseLinkedList<T> {
      *
      * @param data
      */
-    private void intsertElemAtBegin(T data) {
+    private void insertelematbegin(T data) {
         SNode next = headNode.getNext();
-        headNode.setNext(new SNode(data,next));
+        headNode.setNext(new SNode(data, next));
         length++;
     }
 
@@ -87,14 +95,13 @@ public class LRUBaseLinkedList<T> {
      */
     private SNode findPreNode(T data) {
         SNode node = headNode;
-        while(node.getNext()!=null){
-            if (node.getNext().getElement().equals(data))
-            {
+        while (node.getNext() != null) {
+            if (node.getNext().getElement().equals(data)) {
                 return node;
             }
             node = node.getNext();
         }
-        return  null;
+        return null;
     }
 
     /**
@@ -102,10 +109,10 @@ public class LRUBaseLinkedList<T> {
      */
     private void deleteElemAtEnd() {
         SNode ptr = headNode;
-        if (ptr.getNext() == null){
+        if (ptr.getNext() == null) {
             return;
         }
-        while (ptr.getNext().getNext() != null){
+        while (ptr.getNext().getNext() != null) {
             ptr = ptr.getNext();
         }
         SNode tmp = ptr.getNext();
@@ -123,17 +130,19 @@ public class LRUBaseLinkedList<T> {
         System.out.println();
     }
 
-    public class SNode<T>{
+    public class SNode<T> {
         private T element;
         private SNode next;
-        public SNode(){
+
+        public SNode() {
             this.next = null;
         }
-        public SNode(T element){
+
+        public SNode(T element) {
             this.element = element;
         }
 
-        public SNode(T element, SNode next){
+        public SNode(T element, SNode next) {
             this.element = element;
             this.next = next;
         }
@@ -152,15 +161,6 @@ public class LRUBaseLinkedList<T> {
 
         public void setNext(SNode next) {
             this.next = next;
-        }
-    }
-
-    public static void main(String[] args) {
-        LRUBaseLinkedList list = new LRUBaseLinkedList();
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            list.add(sc.nextInt());
-            list.printAll();
         }
     }
 }

@@ -4,6 +4,14 @@ package com.data.structure.stack;
  * 基于栈实现的前进后退浏览器
  */
 public class SampleBrowser {
+    private String currentPage;
+    private LinkedListBasedStack backStack;
+    private LinkedListBasedStack forwardStack;
+    public SampleBrowser() {
+        this.backStack = new LinkedListBasedStack();
+        this.forwardStack = new LinkedListBasedStack();
+    }
+
     public static void main(String[] args) {
         SampleBrowser browser = new SampleBrowser();
         browser.open("http://www.baidu.com");
@@ -21,15 +29,6 @@ public class SampleBrowser {
         browser.goBack();
         browser.goBack();
         browser.checkCurrentPage();
-    }
-
-    private String currentPage;
-    private LinkedListBasedStack backStack;
-    private LinkedListBasedStack forwardStack;
-
-    public SampleBrowser() {
-        this.backStack = new LinkedListBasedStack();
-        this.forwardStack = new LinkedListBasedStack();
     }
 
     public void open(String url) {
@@ -153,20 +152,20 @@ public class SampleBrowser {
                 this.next = next;
             }
 
-            public void setData(String data) {
-                this.data = data;
-            }
-
             public String getData() {
                 return this.data;
             }
 
-            public void setNext(Node next) {
-                this.next = next;
+            public void setData(String data) {
+                this.data = data;
             }
 
             public Node getNext() {
                 return this.next;
+            }
+
+            public void setNext(Node next) {
+                this.next = next;
             }
         }
 

@@ -1,6 +1,6 @@
 package com.data.structure.linkedList;
 
-import jdk.internal.dynalink.beans.StaticClass;
+import java.util.HashSet;
 
 /**
  * 1) 单链表反转
@@ -8,8 +8,9 @@ import jdk.internal.dynalink.beans.StaticClass;
  * 3) 两个有序的链表合并
  * 4) 删除链表倒数第n个结点
  * 5) 求链表的中间结点
+ * 6) 去除链表中的重复数据
  * <p>
- * Author: Zheng
+ * Author: xiaohao
  */
 public class LinkedListAlgo {
 
@@ -26,17 +27,17 @@ public class LinkedListAlgo {
     }
 
     // 检测环
-    public static boolean checkCircle(Node list){
-        if (list == null) return  false;
+    public static boolean checkCircle(Node list) {
+        if (list == null) return false;
 
         Node fast = list;
         Node slow = list;
 
-        while (fast != null && fast.next != null){
+        while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
 
-            if (fast == slow){
+            if (fast == slow) {
                 return true;
             }
         }
@@ -126,7 +127,7 @@ public class LinkedListAlgo {
             f = f.next;
         }
 
-        while (f.next != null){
+        while (f.next != null) {
             f = f.next;
             b = b.next;
         }
@@ -135,7 +136,7 @@ public class LinkedListAlgo {
 
     // 删除倒数第K个结点
     public static Node deleteLastKth(Node list, int k) {
-        Node pre = findLastKth(list, k+1);
+        Node pre = findLastKth(list, k + 1);
         pre.next = pre.next.next;
         return list;
     }
@@ -167,6 +168,79 @@ public class LinkedListAlgo {
         return new Node(value, null);
     }
 
+    public static Node arrayToNode(int[] ints) {
+        Node headNode = new Node(ints[0]);
+        Node other = headNode;
+        for (int i = 1; i < ints.length; i++) {
+            other.setNext(new Node(ints[i]));
+            other = other.next;
+        }
+        return headNode;
+    }
+
+    /**
+     * 面试题 02.01. 移除重复节点
+     * 输入：[1, 2, 3, 3, 2, 1]
+     * 输出：[1, 2, 3]
+     *
+     * @param head
+     * @return
+     */
+    public static Node removeDuplicateNodes(Node head) {
+        HashSet set = new HashSet();
+        Node cur = head;
+        while (cur != null && cur.next != null) {
+            set.add(cur.data);
+            if (set.contains(cur.next.data)) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return head;
+    }
+
+    public static void main(String[] args) {
+        int[] ints = {1, 3, 5, 7, 9, 11};
+        int[] ints2 = {2, 4, 6, 8, 10, 12};
+        //翻转链表测试
+        Node headNode = arrayToNode(ints);
+        printAll(headNode);
+        printAll(reverse(headNode));
+
+        //有序链表合并测试。思想 加个临时哨兵结点
+        Node l1 = arrayToNode(ints);
+        Node l2 = arrayToNode(ints2);
+        printAll(mergeTwoLists(l1, l2));
+
+        //倒数K结点测试，思想先走K步
+        Node k = arrayToNode(ints);
+        printAll(k);
+        System.out.println("查找倒数第二个结点是：" + findLastKth(k, 2).data + "删除后的链表");
+        printAll(deleteLastKth(k, 2));
+
+        //求中间结点
+        System.out.println(findMiddleNode(k).data);
+
+        //测试链表是否有环
+        Node node1 = new Node(1);
+        Node node2 = new Node(1);
+        Node node3 = new Node(1);
+        Node node4 = new Node(1);
+
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = null;
+        System.out.println(checkCircle(node1));
+
+        int[] ints3 = {1, 2, 3, 3, 2, 1};
+        //移除重复节点
+        Node headNode2 = arrayToNode(ints3);
+        Node newNode = removeDuplicateNodes(headNode2);
+        printAll(newNode);
+    }
+
     public static class Node {
         private int data;
         private Node next;
@@ -195,51 +269,6 @@ public class LinkedListAlgo {
         public void setNext(Node next) {
             this.next = next;
         }
-    }
-
-    public static Node arrayToNode(int[] ints) {
-        Node headNode = new Node(ints[0]);
-        Node other = headNode;
-        for (int i = 1; i < ints.length; i++) {
-            other.setNext(new Node(ints[i]));
-            other = other.next;
-        }
-        return headNode;
-    }
-
-    public static void main(String[] args) {
-        int[] ints = {1, 3, 5, 7, 9, 11};
-        int[] ints2 = {2, 4, 6, 8, 10, 12};
-        //翻转链表测试
-        Node headNode = arrayToNode(ints);
-        printAll(headNode);
-        printAll(reverse(headNode));
-
-        //有序链表合并测试。思想 加个临时哨兵结点
-        Node l1 = arrayToNode(ints);
-        Node l2 = arrayToNode(ints2);
-        printAll(mergeTwoLists(l1, l2));
-
-        //倒数K结点测试，思想先走K步
-        Node k = arrayToNode(ints);
-        printAll(k);
-        System.out.println("查找倒数第二个结点是："+findLastKth(k,2 ).data+"删除后的链表");
-        printAll(deleteLastKth(k, 2));
-
-        //求中间结点
-        System.out.println(findMiddleNode(k).data);
-
-        //测试链表是否有环
-        Node node1 = new Node(1);
-        Node node2 = new Node(1);
-        Node node3 = new Node(1);
-        Node node4 = new Node(1);
-
-        node1.next = node2;
-        node2.next = node3;
-        node3.next = node4;
-        node4.next = null;
-        System.out.println(checkCircle(node1));
     }
 
 
